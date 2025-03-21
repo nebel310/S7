@@ -27,3 +27,6 @@ Thumbs.db
 assets
 
 test.py
+
+/uploads/cvs/*.pdf
+!/uploads/cvs/

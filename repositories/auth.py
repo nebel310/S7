@@ -21,6 +21,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 
+
 class UserRepository:
     @classmethod
     async def register_user(cls, user_data: SUserRegister) -> int:

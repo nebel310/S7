@@ -4,7 +4,8 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from database import create_tables, delete_tables
-from router.auth import router as auth_router
+from router.auth import auth_router
+from router.profile import profile_router
 
 
 
@@ -36,17 +37,16 @@ def custom_openapi():
         }
     }
     
-    secured_paths = [
-        "/auth/me",
-        "/auth/logout"
-    ]
+    secured_paths = {
+        "/auth/me": {"method": "get", "security": [{"Bearer": []}]},
+        "/auth/logout": {"method": "post", "security": [{"Bearer": []}]},
+        "/auth/upload-resume": {"method": "post", "security": [{"Bearer": []}]},
+        "/auth/download-resume": {"method": "get", "security": [{"Bearer": []}]},
+    }
 
-    for path in secured_paths:
+    for path, config in secured_paths.items():
         if path in openapi_schema["paths"]:
-            if path == "/auth/me":
-                openapi_schema["paths"][path]["get"]["security"] = [{"Bearer": []}]
-            elif path == "/auth/logout":
-                openapi_schema["paths"][path]["post"]["security"] = [{"Bearer": []}]
+            openapi_schema["paths"][path][config["method"]]["security"] = config["security"]
     
     app.openapi_schema = openapi_schema
     return app.openapi_schema
@@ -55,6 +55,7 @@ def custom_openapi():
 app = FastAPI(lifespan=lifespan)
 app.openapi = custom_openapi
 app.include_router(auth_router)
+app.include_router(profile_router)
 
 
 app.add_middleware(
@@ -64,11 +65,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-
-if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        reload=True
-    )
