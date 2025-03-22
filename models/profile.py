@@ -20,6 +20,6 @@ class PhotoResultOrm(Model):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    photo_path: Mapped[str]  # Путь к загруженной фотографии
-    result: Mapped[int]  # Результат нейронной сети (1 или 0)
+    photo_path: Mapped[str]
+    result: Mapped[int]
     created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now())

@@ -11,18 +11,15 @@ from schemas import SQuestion
 
 
 class CourseRepository:
-    # Папка для загрузки изображений курсов
     UPLOAD_DIR = "uploads/courses/images"
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
     @classmethod
     async def upload_image(cls, file: UploadFile) -> str:
-        # Генерация уникального имени файла
         file_extension = file.filename.split(".")[-1]
         unique_filename = f"{uuid.uuid4()}.{file_extension}"
         file_path = os.path.join(cls.UPLOAD_DIR, unique_filename)
 
-        # Сохранение файла на сервере
         with open(file_path, "wb") as buffer:
             buffer.write(await file.read())
 
@@ -30,13 +27,12 @@ class CourseRepository:
 
     @classmethod
     async def create_course(cls, title: str, image_file: UploadFile, short_description: str, content: str, video_url: str):
-        # Загружаем изображение
         image_path = await cls.upload_image(image_file)
 
         async with new_session() as session:
             course = CourseOrm(
                 title=title,
-                image_url=image_path,  # Сохраняем путь к изображению
+                image_url=image_path,
                 short_description=short_description,
                 content=content,
                 video_url=video_url
@@ -65,19 +61,18 @@ class CourseRepository:
 
 class TestRepository:
     @classmethod
-    async def create_test(cls, course_id: int, title: str, questions: list[SQuestion]):  # Используем SQuestion
+    async def create_test(cls, course_id: int, title: str, questions: list[SQuestion]): 
         async with new_session() as session:
             test = TestOrm(course_id=course_id, title=title)
             session.add(test)
-            await session.flush()  # Получаем ID теста
+            await session.flush()  
 
-            # Добавляем вопросы
             for question in questions:
                 question_orm = QuestionOrm(
                     test_id=test.id,
-                    text=question.text,  # Используем точечную нотацию
-                    options=json.dumps(question.options),  # Используем точечную нотацию
-                    correct_answer=question.correct_answer  # Используем точечную нотацию
+                    text=question.text, 
+                    options=json.dumps(question.options),
+                    correct_answer=question.correct_answer
                 )
                 session.add(question_orm)
 
@@ -114,12 +109,10 @@ class UserProgressRepository:
     @classmethod
     async def get_user_progress_by_course(cls, user_id: int, course_id: int):
         async with new_session() as session:
-            # Получаем все тесты для курса
             query = select(TestOrm).where(TestOrm.course_id == course_id)
             result = await session.execute(query)
             tests = result.scalars().all()
 
-            # Получаем прогресс пользователя по каждому тесту
             progress = []
             for test in tests:
                 query = select(UserProgressOrm).where(

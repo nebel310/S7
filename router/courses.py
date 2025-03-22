@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, Form
 from security import get_current_user
 from models.auth import UserOrm
 from repositories.courses import CourseRepository, TestRepository, UserProgressRepository
-from schemas import SCourseCreate, STestCreate, SQuestion
+from schemas import STestCreate
 
 
 
@@ -23,7 +23,6 @@ async def create_course(
     image_file: UploadFile = File(...),
     current_user: UserOrm = Depends(get_current_user)
 ):
-    # Создаем курс с загруженным изображением
     course_id = await CourseRepository.create_course(
         title=title,
         image_file=image_file,

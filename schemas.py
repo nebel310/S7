@@ -31,20 +31,20 @@ class SCourseCreate(BaseModel):
     title: str
     image_url: str
     short_description: str
-    content: str  # Markdown текст
+    content: str  
     video_url: str
 
 
 class SQuestion(BaseModel):
-    text: str  # Текст вопроса
-    options: List[str]  # Варианты ответов
-    correct_answer: str  # Правильный ответ
+    text: str 
+    options: List[str]  
+    correct_answer: str 
 
 
 class STestCreate(BaseModel):
     course_id: int
     title: str
-    questions: List[SQuestion]  # Список вопросов
+    questions: List[SQuestion]
 
 
 class SUserProgress(BaseModel):

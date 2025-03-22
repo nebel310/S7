@@ -28,7 +28,6 @@ class CVRepository:
 
 
 class PhotoRepository:
-    # Папка для загрузки фотографий
     UPLOAD_DIR = "uploads/profile/photos"
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -42,12 +41,10 @@ class PhotoRepository:
 
     @classmethod
     async def upload_photo(cls, file: UploadFile):
-        # Генерация уникального имени файла
         file_extension = file.filename.split(".")[-1]
         unique_filename = f"{uuid.uuid4()}.{file_extension}"
         file_path = os.path.join(cls.UPLOAD_DIR, unique_filename)
 
-        # Сохранение файла на сервере
         with open(file_path, "wb") as buffer:
             buffer.write(await file.read())
 
@@ -56,18 +53,14 @@ class PhotoRepository:
 
     @classmethod
     async def process_photo_with_nn(cls, photo_path: str):
-        # Создаем временный файл для вывода результата
         output_file = os.path.join(cls.UPLOAD_DIR, "temp_output.txt")
 
-        # Вызываем ваш класс Predict
         predictor = Predict(photo_path, output_file)
         predictor.make_prediction()
 
-        # Читаем результат из файла
         with open(output_file, 'r') as f:
             result = int(f.read().strip())
 
-        # Удаляем временный файл
         os.remove(output_file)
 
         return result

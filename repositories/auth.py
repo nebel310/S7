@@ -90,11 +90,9 @@ class UserRepository:
     @classmethod
     async def create_refresh_token(cls, user_id: int) -> str:
         async with new_session() as session:
-            # Удаляем старый refresh токен пользователя, если он существует
             delete_query = delete(RefreshTokenOrm).where(RefreshTokenOrm.user_id == user_id)
             await session.execute(delete_query)
             
-            # Создаем новый refresh токен
             refresh_token = jwt.encode({"sub": str(user_id)}, SECRET_KEY, algorithm=ALGORITHM)
             expires_at = datetime.now(timezone.utc) + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
             
