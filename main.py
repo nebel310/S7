@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from database import create_tables, delete_tables
 from router.auth import auth_router
 from router.profile import profile_router
+from router.courses import courses_router
 
 
 
@@ -42,6 +43,9 @@ def custom_openapi():
         "/auth/logout": {"method": "post", "security": [{"Bearer": []}]},
         "/auth/upload-resume": {"method": "post", "security": [{"Bearer": []}]},
         "/auth/download-resume": {"method": "get", "security": [{"Bearer": []}]},
+        "/auth/upload-photo": {"method": "post", "security": [{"Bearer": []}]}
+        # "/courses/add-material": {"method": "post", "security": [{"Bearer": []}]},
+        # "/courses/add-test": {"method": "post", "security": [{"Bearer": []}]},
     }
 
     for path, config in secured_paths.items():
@@ -56,6 +60,7 @@ app = FastAPI(lifespan=lifespan)
 app.openapi = custom_openapi
 app.include_router(auth_router)
 app.include_router(profile_router)
+app.include_router(courses_router)
 
 
 app.add_middleware(

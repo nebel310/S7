@@ -13,3 +13,13 @@ class CVOrm(Model):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     file_path: Mapped[str]
     created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now())
+
+
+class PhotoResultOrm(Model):
+    __tablename__ = 'photo_results'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    photo_path: Mapped[str]  # Путь к загруженной фотографии
+    result: Mapped[int]  # Результат нейронной сети (1 или 0)
+    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now())

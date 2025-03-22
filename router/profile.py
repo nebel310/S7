@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse
 from security import get_current_user
 from models.auth import UserOrm
-from repositories.profile import CVRepository
+from repositories.profile import CVRepository, PhotoRepository
 import os
 
 
@@ -35,3 +35,15 @@ async def download_resume(current_user: UserOrm = Depends(get_current_user)):
         raise HTTPException(status_code=404, detail="Резюме не найдено")
 
     return FileResponse(cv.file_path, media_type="application/pdf", filename=f"cv_{current_user.id}.pdf")
+
+
+@profile_router.post("/upload-photo")
+async def upload_photo(file: UploadFile = File(...), current_user: UserOrm = Depends(get_current_user)):
+    if not file.content_type.startswith("image/"):
+        raise HTTPException(status_code=400, detail="Файл должен быть изображением")
+
+    photo_path = await PhotoRepository.upload_photo(file)
+    result = await PhotoRepository.process_photo_with_nn(photo_path)
+    await PhotoRepository.save_photo_result(current_user.id, photo_path, result)
+
+    return {"success": True, "result": result, "photo_path": photo_path}

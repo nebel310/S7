@@ -28,5 +28,6 @@ assets
 
 test.py
 
-/uploads/cvs/*.pdf
-!/uploads/cvs/
+uploads/*
+
+model.pt
