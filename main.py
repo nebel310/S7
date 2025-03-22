@@ -43,9 +43,10 @@ def custom_openapi():
         "/auth/logout": {"method": "post", "security": [{"Bearer": []}]},
         "/auth/upload-resume": {"method": "post", "security": [{"Bearer": []}]},
         "/auth/download-resume": {"method": "get", "security": [{"Bearer": []}]},
-        "/auth/upload-photo": {"method": "post", "security": [{"Bearer": []}]}
-        # "/courses/add-material": {"method": "post", "security": [{"Bearer": []}]},
-        # "/courses/add-test": {"method": "post", "security": [{"Bearer": []}]},
+        "/auth/upload-photo": {"method": "post", "security": [{"Bearer": []}]},
+        "/courses/complete-test": {"method": "post", "security": [{"Bearer": []}]},
+        "/courses/{course_id}/progress": {"method": "get", "security": [{"Bearer": []}]},
+        "/courses/create": {"method": "post", "security": [{"Bearer": []}]},
     }
 
     for path, config in secured_paths.items():

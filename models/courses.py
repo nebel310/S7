@@ -10,35 +10,49 @@ class CourseOrm(Model):
     __tablename__ = 'courses'
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    title: Mapped[str]
-    description: Mapped[str]
-    image_url: Mapped[str] = mapped_column(nullable=True)  # Ссылка на фото курса
+    title: Mapped[str]  # Название курса
+    image_url: Mapped[str]  # Путь к фото курса
+    short_description: Mapped[str]  # Краткое описание
+    content: Mapped[str]  # Основной текст (markdown)
+    video_url: Mapped[str]  # Ссылка на видео
     created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now())
 
-    # Связь с материалами курса
-    materials: Mapped[list["CourseMaterialOrm"]] = relationship(back_populates="course")
-    tests: Mapped[list["CourseTestOrm"]] = relationship(back_populates="course")
+    # Связь с тестами
+    tests: Mapped[list["TestOrm"]] = relationship(back_populates="course")
 
 
-class CourseMaterialOrm(Model):
-    __tablename__ = 'course_materials'
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    course_id: Mapped[int] = mapped_column(ForeignKey('courses.id'))
-    type: Mapped[str]  # Тип материала: video, text, file
-    content: Mapped[str]  # Ссылка на видео, текст или файл
-    title: Mapped[str]  # Название материала
-
-    course: Mapped["CourseOrm"] = relationship(back_populates="materials")
-
-
-class CourseTestOrm(Model):
-    __tablename__ = 'course_tests'
+class TestOrm(Model):
+    __tablename__ = 'tests'
 
     id: Mapped[int] = mapped_column(primary_key=True)
     course_id: Mapped[int] = mapped_column(ForeignKey('courses.id'))
-    question: Mapped[str]
+    title: Mapped[str]  # Название теста
+    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now())
+
+    # Связь с вопросами
+    questions: Mapped[list["QuestionOrm"]] = relationship(back_populates="test")
+    # Связь с курсом
+    course: Mapped["CourseOrm"] = relationship(back_populates="tests")
+
+
+class QuestionOrm(Model):
+    __tablename__ = 'questions'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    test_id: Mapped[int] = mapped_column(ForeignKey('tests.id'))
+    text: Mapped[str]  # Текст вопроса
     options: Mapped[str]  # JSON строка с вариантами ответов
     correct_answer: Mapped[str]  # Правильный ответ
 
-    course: Mapped["CourseOrm"] = relationship(back_populates="tests")
+    # Связь с тестом
+    test: Mapped["TestOrm"] = relationship(back_populates="questions")
+
+
+class UserProgressOrm(Model):
+    __tablename__ = 'user_progress'
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    test_id: Mapped[int] = mapped_column(ForeignKey('tests.id'))
+    is_completed: Mapped[bool] = mapped_column(default=False)  # Пройден ли тест
+    created_at: Mapped[datetime] = mapped_column(default=lambda: datetime.now())

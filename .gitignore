@@ -17,7 +17,6 @@ __pycache__/
 *.tmp
 *.temp
 
-*.env
 *.env.local
 secrets.yml
 
@@ -29,5 +28,3 @@ assets
 test.py
 
 uploads/*
-
-model.pt

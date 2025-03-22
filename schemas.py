@@ -29,22 +29,34 @@ class SUser(BaseModel):
 
 class SCourseCreate(BaseModel):
     title: str
-    description: str
-    image_url: str | None = None
+    image_url: str
+    short_description: str
+    content: str  # Markdown текст
+    video_url: str
 
 
-class SCourseMaterialAdd(BaseModel):
+class SQuestion(BaseModel):
+    text: str  # Текст вопроса
+    options: List[str]  # Варианты ответов
+    correct_answer: str  # Правильный ответ
+
+
+class STestCreate(BaseModel):
     course_id: int
-    type: str
-    content: str
     title: str
+    questions: List[SQuestion]  # Список вопросов
 
 
-class SCourseTestAdd(BaseModel):
-    course_id: int
-    question: str
-    options: List[str]
-    correct_answer: str
+class SUserProgress(BaseModel):
+    test_id: int
+    test_title: str
+    is_completed: bool
+
+
+class SCourseProgressResponse(BaseModel):
+    success: bool
+    progress: List[SUserProgress]
+
     
 
 
