@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S7 Airlines Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <div class="logo-circle">S7</div>
+            <span class="logo-text">Airlines</span>
+        </a>
+        <div class="nav-links">
+            <div class="user-panel" id="userPanel">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <span id="username"></span>
+                <button class="button" onclick="auth.logout()">Выйти</button>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Академия S7 Airlines</h1>
+        <p>Стань частью команды профессионалов</p>
+        <button class="button" onclick="auth.showAuthModal('login')">Начать обучение</button>
+    </section>
+
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="auth.switchTab('login')">Вход</button>
+                <button class="auth-tab" onclick="auth.switchTab('register')">Регистрация</button>
+            </div>
+
+            <form id="loginForm" class="auth-form" onsubmit="auth.handleLogin(event)">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" class="form-input" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" class="form-input" placeholder="Пароль" required>
+                </div>
+                <div class="error-message" id="loginError"></div>
+                <button type="submit" class="button">Войти</button>
+            </form>
+
+            <form id="registerForm" class="auth-form" style="display: none;" onsubmit="auth.handleRegister(event)">
+                <div class="form-group">
+                    <input type="text" id="regUsername" class="form-input" placeholder="Имя пользователя" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="regEmail" class="form-input" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPassword" class="form-input" placeholder="Пароль" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="regPasswordConfirm" class="form-input" placeholder="Повторите пароль" required>
+                </div>
+                <div class="error-message" id="registerError"></div>
+                <button type="submit" class="button">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>

@@ -55,9 +55,9 @@ class CourseRepository:
 
 
     @classmethod
-    async def get_all_courses(cls):
+    async def get_all_courses(cls, limit: int, offset: int):
         async with new_session() as session:
-            query = select(CourseOrm)
+            query = select(CourseOrm).limit(limit).offset(offset)
             result = await session.execute(query)
             return result.scalars().all()
 

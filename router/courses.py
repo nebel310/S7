@@ -59,8 +59,8 @@ async def get_course(course_id: int):
 
 
 @courses_router.get("/")
-async def get_all_courses():
-    courses = await CourseRepository.get_all_courses()
+async def get_all_courses(limit: int=10, offset: int=0):
+    courses = await CourseRepository.get_all_courses(limit, offset)
     return courses
 
 
