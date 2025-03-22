@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S7 Airlines - Вход</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="s7-header">
+        <nav class="s7-nav">
+            <a href="/client" class="s7-logo">
+                <div class="s7-logo-circle">S7</div>
+                <span style="color: var(--secondary);">Airlines</span>
+            </a>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="s7-main auth-page">
+        <div class="auth-card">
+            <h2 class="auth-title">Вход в систему</h2>
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-input" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" class="form-input" required>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <button type="submit" class="s7-button" id="loginBtn">
+                    <span>Войти</span>
+                    <div class="loader" style="display: none;"></div>
+                </button>
+            </form>
+            
+            <p class="auth-link">Нет аккаунта? <a href="register.html">Зарегистрируйтесь</a></p>
+        </div>
+    </main>
+
+    <script src="js/theme.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const loader = loginBtn.querySelector('.loader');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginBtn.disabled = true;
+            loader.style.display = 'block';
+            loginBtn.querySelector('span').style.visibility = 'hidden';
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await handleApiRequest('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password })
+                });
+
+                localStorage.setItem('access_token', response.access_token);
+                localStorage.setItem('refresh_token', response.refresh_token);
+                window.location.href = '/profile.html';
+            } catch (error) {
+                document.getElementById('emailError').textContent = error.message;
+                document.getElementById('emailError').style.display = 'block';
+            } finally {
+                loginBtn.disabled = false;
+                loader.style.display = 'none';
+                loginBtn.querySelector('span').style.visibility = 'visible';
+            }
+        });
+    </script>
+</body>
+</html>
