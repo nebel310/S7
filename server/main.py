@@ -65,7 +65,7 @@ app.include_router(courses_router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5500"],  # Тут адрес фронтенда
+    allow_origins=["http://127.0.0.1:3000"],  # Тут адрес фронтенда
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
