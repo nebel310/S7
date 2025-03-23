@@ -1,0 +1,14 @@
+/* "../_variables"; */
+$fontSize:14px;
+$borderRadius:12px;
+$transitionDuration:.2s;
+$maskBg:rgba(0, 0, 0, 0.4);
+
+.layout-footer {
+    transition: margin-left $transitionDuration;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-border);
+}

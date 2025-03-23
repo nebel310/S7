@@ -1,0 +1,18 @@
+/* "../_variables"; */
+$fontSize:14px;
+$borderRadius:12px;
+$transitionDuration:.2s;
+$maskBg:rgba(0, 0, 0, 0.4);
+
+.layout-main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    padding: 7rem 2rem 2rem 4rem;
+    transition: margin-left $transitionDuration;
+}
+
+.layout-main {
+    flex: 1 1 auto;
+}
