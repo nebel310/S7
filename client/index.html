@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S7 Airlines Academy</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header class="s7-header">
         <nav class="s7-nav">
-            <a href="/client" class="s7-logo">
+            <a href="index.html" class="s7-logo">
                 <div class="s7-logo-circle">S7</div>
-                <span style="color: var(--secondary);">Airlines</span>
+                <span class="s7-logo-text">Airlines</span>
             </a>
-            <div class="nav-links">
+            <div class="s7-nav-links">
+                <a href="courses.html" class="s7-nav-link">Курсы</a>
+                <a href="profile.html" class="s7-nav-link">Профиль</a>
+                <button class="s7-button outlined" onclick="showAuthModal('login')">Вход</button>
                 <button class="theme-toggle" onclick="toggleTheme()">
                     <i class="fas fa-moon"></i>
                 </button>
-                <a href="login.html" class="s7-button">Войти</a>
             </div>
         </nav>
     </header>
@@ -26,15 +29,43 @@
     <main class="s7-main">
         <section class="hero-section">
             <div class="hero-content">
-                <h1 class="hero-title">Стань частью команды S7 Airlines</h1>
-                <p class="hero-subtitle">Профессиональное обучение для будущих сотрудников</p>
-                <div class="hero-actions">
-                    <button onclick="location.href='register.html'" class="s7-button">Начать обучение</button>
+                <div class="hero-text">
+                    <h1 class="hero-title">Стань частью команды S7 Airlines</h1>
+                    <p class="hero-subtitle">Профессиональная подготовка бортпроводников нового поколения</p>
+                    <div class="hero-cta">
+                        <button class="s7-button glow" onclick="location.href='register.html'">Присоединиться</button>
+                        <button class="s7-button outlined" onclick="location.href='login.html'">Войти в систему</button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="animated-wings-container">
+                        <div class="wing left"></div>
+                        <div class="wing right"></div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <script src="js/theme.js"></script>
+    <footer class="s7-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>S7 Academy</h4>
+                <p>© 2024 Все права защищены</p>
+            </div>
+            <div class="footer-section">
+                <a href="#" class="footer-link">Контакты</a>
+                <a href="#" class="footer-link">Политика конфиденциальности</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальные окна -->
+    <div class="auth-modal" id="loginModal">
+        <!-- Содержимое модалки -->
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>

@@ -1,0 +1,167 @@
+/* Auth Styles */
+.auth-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(
+        45deg,
+        var(--primary-light) 0%,
+        var(--background) 100%
+    );
+}
+
+.auth-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: var(--shadow);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: cardAppear 0.6s forwards;
+}
+
+@keyframes cardAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.auth-links {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.auth-links a {
+    color: var(--primary);
+    text-decoration: none;
+    position: relative;
+}
+
+.auth-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--primary);
+    transition: var(--transition);
+}
+
+.auth-links a:hover::after {
+    width: 100%;
+}
+
+.flash-message {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    animation: slideIn 0.3s ease-out;
+    display: none;
+}
+
+.flash-message.error {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+.flash-message.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--secondary);
+    cursor: pointer;
+    padding: 5px;
+}
+
+.password-strength {
+    height: 3px;
+    margin-top: 8px;
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+.password-strength.weak {
+    background: var(--error);
+    width: 33%;
+}
+
+.password-strength.medium {
+    background: #ffc107;
+    width: 66%;
+}
+
+.password-strength.strong {
+    background: var(--success);
+    width: 100%;
+}
+
+.password-match {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    height: 18px;
+}
+
+.password-match.valid {
+    color: var(--success);
+}
+
+.password-match.invalid {
+    color: var(--error);
+}
